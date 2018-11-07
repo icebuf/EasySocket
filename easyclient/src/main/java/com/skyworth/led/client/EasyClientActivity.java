@@ -1,4 +1,4 @@
-package com.skyworth.led.easyclient;
+package com.skyworth.led.client;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.skyworth.led.easyclient.activity.BroadcasterActivity;
-import com.skyworth.led.easyclient.adapter.TestCaseAdapter;
-import com.skyworth.led.easyclient.bean.TestCase;
+import com.skyworth.led.client.activity.BroadcasterActivity;
+import com.skyworth.led.client.adapter.TestCaseAdapter;
+import com.skyworth.led.client.bean.TestCase;
 
 import java.util.ArrayList;
 import java.util.List;

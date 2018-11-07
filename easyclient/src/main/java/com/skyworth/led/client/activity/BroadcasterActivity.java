@@ -1,4 +1,4 @@
-package com.skyworth.led.easyclient.activity;
+package com.skyworth.led.client.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +10,7 @@ import com.skyworth.easysocket.Utils;
 import com.skyworth.easysocket.bean.EasyMessage;
 import com.skyworth.easysocket.bean.SocketInfo;
 import com.skyworth.easysocket.client.TCPClient;
-import com.skyworth.led.easyclient.R;
+import com.skyworth.led.client.R;
 
 import java.util.Arrays;
 import java.util.List;

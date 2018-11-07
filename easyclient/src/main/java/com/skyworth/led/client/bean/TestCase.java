@@ -1,4 +1,4 @@
-package com.skyworth.led.easyclient.bean;
+package com.skyworth.led.client.bean;
 
 import android.app.Activity;
 

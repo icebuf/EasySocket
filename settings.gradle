@@ -1,1 +1,1 @@
-include ':easyserver', ':easysocket', ':easyclient'
+include ':server', ':easysocket', ':easyclient'

@@ -1,4 +1,4 @@
-package com.skyworth.bflyff.easyserver;
+package com.skyworth.bflyff.server;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
