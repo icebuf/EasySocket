@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">EasyClient</string>
+    <string name="udp_broadcast_test">UDP Broadcaster Test</string>
+    <string name="udp_broadcast_test_detail">测试UPD广播</string>
+</resources>

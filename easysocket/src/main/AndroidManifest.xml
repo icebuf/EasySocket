@@ -1,0 +1,16 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.skyworth.easysocket" >
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <application>
+
+        <service android:name=".server.ServerService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <service android:name=".client.ClientService"
+            android:enabled="true"
+            android:exported="true"/>
+
+    </application>
+</manifest>
