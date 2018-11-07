@@ -73,7 +73,7 @@ public abstract class ClientActivity extends AbstractEasyActivity<ClientService>
      * @param message 消息内容
      */
     @Override
-    public void onReceive(EasyMessage message) {
+    public void onReceive(Thread thread,EasyMessage message) {
 
     }
 

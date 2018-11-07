@@ -4,6 +4,7 @@ package com.skyworth.easysocket.client;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.skyworth.easysocket.Protocol;
 import com.skyworth.easysocket.ReceiveThread;
 import com.skyworth.easysocket.bean.EasyMessage;
 import com.skyworth.easysocket.bean.SocketInfo;
@@ -203,14 +204,14 @@ public class TCPClient implements ClientSender,ClientSendThread.OnErrorListener 
         if(mConnectedListener != null)
             mConnectedListener.onDisconnected(serverPort,serverIp);
         //停止发送和接收线程
-        mSendThread.shutdown();
-        mReceiveThread.setRunning(false);
-
+        mSendThread.putPack(EasyMessage.create(Protocol.DISCONNECT,0));
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        mSendThread.shutdown();
+        mReceiveThread.setRunning(false);
         //停止socket连接
         try {
             close();

@@ -79,6 +79,7 @@ public class SendThread extends Thread {
         super.run();
         while (isRunning){
             //如果没有暂停
+            Log.i(TAG,"Send Thread 如果没有暂停!");
             if(!dataList.isEmpty()){
                 /**
                  * 发送数据时为了保证对List长度操作的线程安全性，先将原dataList数据拷贝到

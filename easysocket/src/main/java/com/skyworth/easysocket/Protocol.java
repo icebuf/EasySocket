@@ -31,6 +31,8 @@ public class Protocol {
 
     public static final int AAC = 1400;
 
+    public static final int DISCONNECT = 2333;
+
     //请求/响应码
 
     //心跳

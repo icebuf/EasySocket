@@ -10,11 +10,9 @@ import android.util.Log;
 import com.skyworth.easysocket.Protocol;
 import com.skyworth.easysocket.ReceiveThread;
 import com.skyworth.easysocket.bean.EasyMessage;
-import com.skyworth.easysocket.bean.HeartMessage;
 import com.skyworth.easysocket.bean.SocketInfo;
 import com.skyworth.easysocket.bean.SocketInfoMessage;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -22,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 作者：Ice Nation
@@ -38,8 +37,6 @@ public class TCPServer implements ServerSender {
     private ServerSocket mServerSocket = null;
     //服务端监听客户端连接的线程
     private ServerThread mServerThread = null;
-
-    private Socket mSocket = null;
     //服务端监听的端口
     private int mListenerPort;
     //连接的客户端列表
@@ -159,7 +156,7 @@ public class TCPServer implements ServerSender {
         return mClientList.size();
     }
 
-    private class ServerThread extends Thread{
+    private class ServerThread extends Thread implements ReceiveThread.OnReceiveListener {
 
         private boolean isRunning = false;
 
@@ -175,10 +172,11 @@ public class TCPServer implements ServerSender {
         public void run() {
             super.run();
             prepare();
+            Socket mSocket = null;
             while (isRunning){
                 try {
                     mSocket = mServerSocket.accept();
-                    mSocket.setSoTimeout(8000);
+                    mSocket.setSoTimeout(7000);
                     mSocket.setPerformancePreferences(0, 2, 1);
                     mSocket.setTcpNoDelay(true);
 
@@ -186,36 +184,12 @@ public class TCPServer implements ServerSender {
                     if(mConnectionListener != null){
                         mConnectionListener.onConnected(mSocket);
                     }
-
-                    DataInputStream inputStream = new DataInputStream(mSocket.getInputStream());
-                    ReceiveThread receiveThread = new ReceiveThread(inputStream);
                     final SocketInfo info = new SocketInfo(mSocket);
-                    receiveThread.setOnReceiveListener(new ReceiveThread.OnReceiveListener() {
-                        @Override
-                        public void onError(IOException e) {
-                            if(e.getMessage().equals("Read timed out")){
-                                //mClientList.remove(mSocket);断开连接
-                            }
-                        }
-
-                        @Override
-                        public void onReceive(EasyMessage message) {
-                            EasyMessage msg = message;
-                            switch (message.type){
-                                case Protocol.HEART:
-                                    if(message.code == Protocol.HEART_ASK){
-                                        msg = new HeartMessage(message);
-                                    }
-                                    break;
-                            }
-                            if(mReceiveListener != null){
-                                //Log.i(TAG,"receive " + len + " bytes data");
-                                mReceiveListener.onReceive(info,msg);
-                            }
-                        }
-                    });
+                    ReceiveThread receiveThread = new ServerReceiveThread(mSocket);
+                    receiveThread.setOnReceiveListener(this);
                     Log.i(TAG,info.toString() + "has connected!");
-                    mExecutorService.execute(receiveThread);
+                    //mExecutorService.execute(receiveThread);
+                    receiveThread.start();
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -240,6 +214,61 @@ public class TCPServer implements ServerSender {
                 Log.i(TAG,getName() + " init error::" + e.getMessage());
             }
         }
+
+
+        @Override
+        public void onReceive(Thread thread, EasyMessage message) {
+            if(thread instanceof ServerReceiveThread){
+                ServerReceiveThread t = (ServerReceiveThread) thread;
+                if(message.type == Protocol.DISCONNECT){
+                    t.setRunning(false);
+                    Socket socket = t.getSocket();
+                    mClientList.remove(socket);
+                    //断开连接
+                    if(mConnectionListener != null){
+                        mConnectionListener.onDisconnected(socket);
+                    }
+                    try {
+                        close(socket);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Socket socket = t.getSocket();
+                final SocketInfo info = new SocketInfo(socket);
+                if(mReceiveListener != null){
+                    //Log.i(TAG,"receive " + len + " bytes data");
+                    mReceiveListener.onReceive(info,message);
+                }
+            }
+        }
+
+        @Override
+        public void onError(Thread thread, Exception e) {
+            ThreadPoolExecutor executor = (ThreadPoolExecutor) mExecutorService;
+            //executor.remove(thread);
+            if(thread instanceof ServerReceiveThread){
+                ServerReceiveThread t = (ServerReceiveThread) thread;
+                Socket socket = t.getSocket();
+                mClientList.remove(t.getSocket());
+                //断开连接
+                if(mConnectionListener != null){
+                    mConnectionListener.onDisconnected(socket);
+                }
+                try {
+                    close(socket);
+                } catch (IOException e2) {
+                    e2.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    private void close(Socket socket) throws IOException {
+        socket.shutdownInput();
+        socket.shutdownOutput();
+        socket.close();
     }
 
     public int getPort() {

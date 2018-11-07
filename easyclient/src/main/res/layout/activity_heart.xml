@@ -5,16 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
+    tools:context=".activity.HeartActivity"
     android:padding="8dp">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
-        android:text="服务端信息："/>
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:text="客户端信息："/>
+
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/cb_is_emulator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:text="是否为模拟器"/>
+
+    </RelativeLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +45,7 @@
             android:id="@+id/tv_server_ip"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
+            android:layout_weight="5"
             android:text="本地IP："
             android:textColor="@android:color/black"/>
 
@@ -35,16 +53,16 @@
             android:id="@+id/tv_server_port"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:text="端口："
             android:textColor="@android:color/black"/>
 
-        <TextView
-            android:id="@+id/tv_connection_count"
+        <Button
+            android:id="@+id/btn_connect"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="连接数："
+            android:text="@string/btn_text_connected"
             android:textColor="@android:color/black"/>
 
     </LinearLayout>

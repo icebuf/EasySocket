@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">EasySocket Library</string>
+
+    <string name="port_info">端口：%d</string>
+    <string name="connection_count_info">连接数：%d</string>
+    <string name="ip_info">本地IP：%s</string>
 </resources>

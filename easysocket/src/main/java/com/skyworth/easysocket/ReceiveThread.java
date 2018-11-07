@@ -4,6 +4,7 @@ package com.skyworth.easysocket;
 import android.util.Log;
 
 import com.skyworth.easysocket.bean.EasyMessage;
+import com.skyworth.easysocket.bean.HeartMessage;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -29,7 +30,13 @@ public class ReceiveThread extends Thread {
 
     private OnReceiveListener mReceiveListener = null;
 
+
     public ReceiveThread(DataInputStream dataInputStream) {
+        this("ReceiveThread",dataInputStream);
+    }
+
+    public ReceiveThread(String name,DataInputStream dataInputStream){
+        super(name);
         this.dataInputStream = dataInputStream;
     }
 
@@ -176,11 +183,11 @@ public class ReceiveThread extends Thread {
                 }
 
             } catch (IOException e) {
-                Log.i(TAG,"receive error::" + e.getMessage());
                 e.printStackTrace();
-                if(mReceiveListener != null)
-                    mReceiveListener.onError(e);
+                Log.i(TAG,"receive error::" + e.getMessage());
                 isRunning = false;
+                if(mReceiveListener != null)
+                    mReceiveListener.onError(this,e);
                 try {
                     if(dataInputStream != null)
                         dataInputStream.close();
@@ -188,7 +195,6 @@ public class ReceiveThread extends Thread {
                     Log.i(TAG,"receive close failed!");
                     return;
                 }
-
             }
         }
         Log.i(TAG,"receive thread finished!");
@@ -203,12 +209,20 @@ public class ReceiveThread extends Thread {
         byte[] data = new byte[len];
         System.arraycopy(bytes,offset,data,0,len);
         EasyMessage message = new EasyMessage(data,len);
-        onReceive(message);
+        EasyMessage msg = message;
+        switch (message.type){
+            case Protocol.HEART:
+                if(message.code == Protocol.HEART_ASK){
+                    msg = new HeartMessage(message);
+                }
+                break;
+        }
+        onReceive(msg);
     }
 
     protected void onReceive(EasyMessage message) {
         if(mReceiveListener!=null)
-            mReceiveListener.onReceive(message);
+            mReceiveListener.onReceive(this,message);
     }
 
     public boolean isRunning() {
@@ -219,13 +233,15 @@ public class ReceiveThread extends Thread {
         this.dataInputStream = new DataInputStream(inputStream);
     }
 
-    public interface OnReceiveListener extends OnErrorListener {
+    public interface OnReceiveListener{
 
         /**
          * 收到服务端数据时调用
          * @param message
          */
-        void onReceive(EasyMessage message);
+        void onReceive(Thread thread,EasyMessage message);
+
+        void onError(Thread thread,Exception e);
     }
 
     public void setOnReceiveListener(OnReceiveListener listener) {

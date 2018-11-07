@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.skyworth.led.client.activity.BroadcasterActivity;
+import com.skyworth.led.client.activity.HeartActivity;
 import com.skyworth.led.client.adapter.TestCaseAdapter;
 import com.skyworth.led.client.bean.TestCase;
 
@@ -35,7 +36,7 @@ public class EasyClientActivity extends AppCompatActivity {
             testCaseList.add(new TestCase(getString(R.string.tcp_connect_by_qr_code),
                     getString(R.string.tcp_connect_by_qr_code_detail),BroadcasterActivity.class));
             testCaseList.add(new TestCase(getString(R.string.tcp_comm_by_heart),
-                    getString(R.string.tcp_comm_by_heart_detail),BroadcasterActivity.class));
+                    getString(R.string.tcp_comm_by_heart_detail),HeartActivity.class));
             testCaseList.add(new TestCase(getString(R.string.tcp_comm_by_str_package),
                     getString(R.string.tcp_comm_by_str_package_detail),BroadcasterActivity.class));
             testCaseList.add(new TestCase(getString(R.string.tcp_comm_by_file_package),

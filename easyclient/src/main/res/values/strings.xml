@@ -23,4 +23,6 @@
 
     <string name="tcp_comm_by_screen_share">8.【福利】基于MediaCodec的投屏测试</string>
     <string name="tcp_comm_by_screen_share_detail">客户端录屏编码并发送给服务端解码显示</string>
+    <string name="btn_text_disconnect">断开连接</string>
+    <string name="btn_text_connected">连接</string>
 </resources>

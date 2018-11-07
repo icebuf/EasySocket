@@ -67,18 +67,25 @@ public class MainActivity extends AppCompatActivity implements TCPServer.OnRecei
 
     @Override
     public void onReceive(final SocketInfo info, final EasyMessage message) {
+        putLog("[" + info.getIp() + "]: " + message.toString());
+        mServer.send(info,message);
+    }
+
+    private void putLog(final String log){
         mMessageView.post(new Runnable() {
             @Override
             public void run() {
-                String str = mMessageView.getText().toString();
-                mMessageView.setText(str + "[" + info.getIp() + "]: " + message.toString() + "\n");
+                int count = mMessageView.getLineCount();
+                if(count < 200){
+                    mMessageView.append(log + "\n");
+                }else {
+                    mMessageView.setText(log + "\n");
+                }
 
                 ScrollView scrollView = findViewById(R.id.scroll_log);
                 scrollView.smoothScrollTo(0, mMessageView.getBottom());
             }
         });
-
-        mServer.send(info,message);
     }
 
     @Override
