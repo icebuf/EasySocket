@@ -30,6 +30,20 @@ public class EasyClientActivity extends AppCompatActivity {
         {
             testCaseList.add(new TestCase(getString(R.string.udp_broadcast_test),
                     getString(R.string.udp_broadcast_test_detail),BroadcasterActivity.class));
+            testCaseList.add(new TestCase(getString(R.string.tcp_connect_by_broadcast),
+                    getString(R.string.tcp_connect_by_broadcast_detail),BroadcasterActivity.class));
+            testCaseList.add(new TestCase(getString(R.string.tcp_connect_by_qr_code),
+                    getString(R.string.tcp_connect_by_qr_code_detail),BroadcasterActivity.class));
+            testCaseList.add(new TestCase(getString(R.string.tcp_comm_by_heart),
+                    getString(R.string.tcp_comm_by_heart_detail),BroadcasterActivity.class));
+            testCaseList.add(new TestCase(getString(R.string.tcp_comm_by_str_package),
+                    getString(R.string.tcp_comm_by_str_package_detail),BroadcasterActivity.class));
+            testCaseList.add(new TestCase(getString(R.string.tcp_comm_by_file_package),
+                    getString(R.string.tcp_comm_by_file_package_detail),BroadcasterActivity.class));
+            testCaseList.add(new TestCase(getString(R.string.tcp_comm_by_custom_package),
+                    getString(R.string.tcp_comm_by_custom_package_detail),BroadcasterActivity.class));
+            testCaseList.add(new TestCase(getString(R.string.tcp_comm_by_screen_share),
+                    getString(R.string.tcp_comm_by_screen_share_detail),BroadcasterActivity.class));
         }
 
 

@@ -11,7 +11,7 @@ import com.skyworth.easysocket.Protocol;
  * 日期：2018/5/10 18:00
  * 邮箱：tangjie@skyworth.com
  */
-@MessageType(method = "HeartMessage")
+@MessageType(type = "HeartMessage")
 public class HeartMessage extends EasyMessage {
 
     private String tag = null;

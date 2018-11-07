@@ -1,5 +1,26 @@
 <resources>
     <string name="app_name">EasyClient</string>
-    <string name="udp_broadcast_test">UDP Broadcaster Test</string>
-    <string name="udp_broadcast_test_detail">测试UPD广播</string>
+    <string name="udp_broadcast_test">1.UDP广播测试</string>
+    <string name="udp_broadcast_test_detail">客户端接收服务端发送的UPD广播</string>
+
+    <string name="tcp_connect_by_broadcast">2.通过UDP广播连接服务端</string>
+    <string name="tcp_connect_by_broadcast_detail">通过服务端广播内容获取服务端连接信息并建立TCP连接</string>
+
+    <string name="tcp_connect_by_qr_code">3.通过扫码连接</string>
+    <string name="tcp_connect_by_qr_code_detail">服务端生成包含连接信息的二维码，通过客户端扫描建立连接</string>
+
+    <string name="tcp_comm_by_heart">4.TCP长连接心跳包测试</string>
+    <string name="tcp_comm_by_heart_detail">连接服务端后，客户端一直发送心跳包</string>
+
+    <string name="tcp_comm_by_str_package">5.字符串数据包测试</string>
+    <string name="tcp_comm_by_str_package_detail">将字符串的数据包发送给服务端</string>
+
+    <string name="tcp_comm_by_file_package">6.文件数据包测试</string>
+    <string name="tcp_comm_by_file_package_detail">将文件的数据包发送给服务端</string>
+
+    <string name="tcp_comm_by_custom_package">7.自定义数据包测试</string>
+    <string name="tcp_comm_by_custom_package_detail">将自定义的数据包发送给服务端</string>
+
+    <string name="tcp_comm_by_screen_share">8.【福利】基于MediaCodec的投屏测试</string>
+    <string name="tcp_comm_by_screen_share_detail">客户端录屏编码并发送给服务端解码显示</string>
 </resources>

@@ -71,10 +71,10 @@ public class MainActivity extends AppCompatActivity implements TCPServer.OnRecei
             @Override
             public void run() {
                 String str = mMessageView.getText().toString();
-                mMessageView.setText(str + "\n[" + info.getIp() + "]: " + message.toString());
+                mMessageView.setText(str + "[" + info.getIp() + "]: " + message.toString() + "\n");
 
                 ScrollView scrollView = findViewById(R.id.scroll_log);
-                scrollView.scrollTo(0, 1000);
+                scrollView.smoothScrollTo(0, mMessageView.getBottom());
             }
         });
 

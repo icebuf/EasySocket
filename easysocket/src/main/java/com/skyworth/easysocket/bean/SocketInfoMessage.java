@@ -19,7 +19,7 @@ public class SocketInfoMessage extends EasyMessage {
     private SocketInfo info = null;
 
     public SocketInfoMessage(EasyMessage message) {
-        super(message.bytes, message.length);
+        super(message);
 
 
         info = new SocketInfo();
