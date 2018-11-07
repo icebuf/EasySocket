@@ -178,6 +178,8 @@ public class ReceiveThread extends Thread {
             } catch (IOException e) {
                 Log.i(TAG,"receive error::" + e.getMessage());
                 e.printStackTrace();
+                if(mReceiveListener != null)
+                    mReceiveListener.onError(e);
                 isRunning = false;
                 try {
                     if(dataInputStream != null)
@@ -198,9 +200,9 @@ public class ReceiveThread extends Thread {
     }
 
     protected void onReceive(byte[] bytes, int offset, int len){
-//        byte[] data = new byte[len];
-//        System.arraycopy(bytes,offset,data,0,len);
-        EasyMessage message = new EasyMessage(bytes,len);
+        byte[] data = new byte[len];
+        System.arraycopy(bytes,offset,data,0,len);
+        EasyMessage message = new EasyMessage(data,len);
         onReceive(message);
     }
 
@@ -217,7 +219,7 @@ public class ReceiveThread extends Thread {
         this.dataInputStream = new DataInputStream(inputStream);
     }
 
-    public interface OnReceiveListener {
+    public interface OnReceiveListener extends OnErrorListener {
 
         /**
          * 收到服务端数据时调用

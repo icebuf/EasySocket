@@ -12,6 +12,7 @@ import com.skyworth.easysocket.bean.SocketInfo;
 import com.skyworth.easysocket.client.TCPClient;
 import com.skyworth.led.client.R;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,6 +35,11 @@ public class BroadcasterActivity extends AppCompatActivity {
         mClient.setServerInfo(new SocketInfo("10.0.2.2", 6100));
         mClient.connect();
         mClient.setOnReceiveListener(new ReceiveThread.OnReceiveListener() {
+            @Override
+            public void onError(IOException e) {
+
+            }
+
             @Override
             public void onReceive(EasyMessage message) {
                 Log.i("onReceive():",message.type + " " + message.code);

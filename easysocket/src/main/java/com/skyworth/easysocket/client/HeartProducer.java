@@ -85,7 +85,7 @@ public class HeartProducer {
     public void start(){
         mTimer = new Timer(TAG);
         mTimer.schedule(new HeartTimerTask(),100,mPeriodTime);
-        message = HeartMessage.create(mHeartData,Protocol.HEART_ASK);
+        message = HeartMessage.obtain(mHeartData,Protocol.HEART_ASK);
         if(mHeartListener != null){
             mHeartListener.onHeartProduce(message);
         }

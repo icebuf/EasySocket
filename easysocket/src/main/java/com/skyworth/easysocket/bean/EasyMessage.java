@@ -2,6 +2,7 @@ package com.skyworth.easysocket.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.skyworth.easysocket.Protocol;
 import com.skyworth.easysocket.Utils;
@@ -37,19 +38,23 @@ public class EasyMessage {
     public int code;
 
     //接收到的数据包内容
-    protected byte[] bytes = null;
+    private byte[] bytes = null;
     //接收到的数据包长度
-    protected int length;
+    private int length;
     //当前索引
     private int index;
 
 
-    public EasyMessage(byte[] bytes, int len){
+    public EasyMessage(@NonNull byte[] bytes, int len){
         this.bytes = bytes;
         this.length = len;
         index = 0;
         type = readType();
         code = readCode();
+    }
+
+    public EasyMessage(@NonNull EasyMessage message) {
+        this(message.bytes, message.length);
     }
 
     //重置索引位置

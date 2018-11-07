@@ -17,10 +17,7 @@ import java.util.List;
 public class EasyClientActivity extends AppCompatActivity {
 
     private List<TestCase> testCaseList = new ArrayList<>();
-    {
-        testCaseList.add(new TestCase(getString(R.string.udp_broadcast_test),
-                getString(R.string.udp_broadcast_test_detail),BroadcasterActivity.class));
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +26,13 @@ public class EasyClientActivity extends AppCompatActivity {
 
         ListView listView = findViewById(R.id.lv_test_case);
         final TestCaseAdapter adapter = new TestCaseAdapter(this);
+
+        {
+            testCaseList.add(new TestCase(getString(R.string.udp_broadcast_test),
+                    getString(R.string.udp_broadcast_test_detail),BroadcasterActivity.class));
+        }
+
+
         adapter.replaceData(testCaseList);
 
         listView.setAdapter(adapter);

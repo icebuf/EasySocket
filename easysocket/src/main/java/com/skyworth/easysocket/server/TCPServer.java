@@ -10,6 +10,7 @@ import android.util.Log;
 import com.skyworth.easysocket.Protocol;
 import com.skyworth.easysocket.ReceiveThread;
 import com.skyworth.easysocket.bean.EasyMessage;
+import com.skyworth.easysocket.bean.HeartMessage;
 import com.skyworth.easysocket.bean.SocketInfo;
 import com.skyworth.easysocket.bean.SocketInfoMessage;
 
@@ -49,6 +50,8 @@ public class TCPServer implements ServerSender {
     private ServerSendThread mSendThread = null;
     //收到客户端数据的监听
     private OnReceiveListener mReceiveListener = null;
+
+    private ConnectionListener mConnectionListener = null;
 
     private Broadcaster mBroadcaster = null;
 
@@ -152,6 +155,10 @@ public class TCPServer implements ServerSender {
         }
     }
 
+    public int getConnectionCount() {
+        return mClientList.size();
+    }
+
     private class ServerThread extends Thread{
 
         private boolean isRunning = false;
@@ -176,16 +183,34 @@ public class TCPServer implements ServerSender {
                     mSocket.setTcpNoDelay(true);
 
                     mClientList.add(mSocket);
+                    if(mConnectionListener != null){
+                        mConnectionListener.onConnected(mSocket);
+                    }
 
                     DataInputStream inputStream = new DataInputStream(mSocket.getInputStream());
                     ReceiveThread receiveThread = new ReceiveThread(inputStream);
                     final SocketInfo info = new SocketInfo(mSocket);
                     receiveThread.setOnReceiveListener(new ReceiveThread.OnReceiveListener() {
                         @Override
+                        public void onError(IOException e) {
+                            if(e.getMessage().equals("Read timed out")){
+                                //mClientList.remove(mSocket);断开连接
+                            }
+                        }
+
+                        @Override
                         public void onReceive(EasyMessage message) {
+                            EasyMessage msg = message;
+                            switch (message.type){
+                                case Protocol.HEART:
+                                    if(message.code == Protocol.HEART_ASK){
+                                        msg = new HeartMessage(message);
+                                    }
+                                    break;
+                            }
                             if(mReceiveListener != null){
                                 //Log.i(TAG,"receive " + len + " bytes data");
-                                mReceiveListener.onReceive(info,message);
+                                mReceiveListener.onReceive(info,msg);
                             }
                         }
                     });
@@ -240,5 +265,16 @@ public class TCPServer implements ServerSender {
 
     public void setOnReceiveListener(OnReceiveListener listener) {
         mReceiveListener = listener;
+    }
+
+    public interface ConnectionListener {
+
+        void onConnected(Socket socket);
+
+        void onDisconnected(Socket socket);
+    }
+
+    public void setConnectionListener(ConnectionListener listener) {
+        mConnectionListener = listener;
     }
 }
