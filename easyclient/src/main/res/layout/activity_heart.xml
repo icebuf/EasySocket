@@ -38,30 +38,65 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/bg_server_info"
-        android:padding="10dp">
+        android:paddingStart="10dp"
+        android:background="@drawable/bg_server_info">
 
-        <TextView
-            android:id="@+id/tv_server_ip"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="本地IP："
-            android:textColor="@android:color/black"/>
+            android:layout_weight="6"
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_server_port"
+            <TextView
+                android:id="@+id/tv_local_ip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="本地IP："
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/tv_server_ip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="服务器IP："
+                android:textColor="@android:color/black"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="端口："
-            android:textColor="@android:color/black"/>
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_local_port"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="端口："
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/tv_server_port"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="端口："
+                android:textColor="@android:color/black"/>
+
+        </LinearLayout>
+
+
 
         <Button
             android:id="@+id/btn_connect"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
+            android:layout_gravity="center"
             android:text="@string/btn_text_connected"
             android:textColor="@android:color/black"/>
 

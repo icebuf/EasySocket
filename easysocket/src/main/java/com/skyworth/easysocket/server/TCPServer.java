@@ -188,8 +188,8 @@ public class TCPServer implements ServerSender {
                     ReceiveThread receiveThread = new ServerReceiveThread(mSocket);
                     receiveThread.setOnReceiveListener(this);
                     Log.i(TAG,info.toString() + "has connected!");
-                    //mExecutorService.execute(receiveThread);
-                    receiveThread.start();
+                    mExecutorService.execute(receiveThread);
+                    //receiveThread.start();
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -245,8 +245,6 @@ public class TCPServer implements ServerSender {
 
         @Override
         public void onError(Thread thread, Exception e) {
-            ThreadPoolExecutor executor = (ThreadPoolExecutor) mExecutorService;
-            //executor.remove(thread);
             if(thread instanceof ServerReceiveThread){
                 ServerReceiveThread t = (ServerReceiveThread) thread;
                 Socket socket = t.getSocket();
@@ -261,6 +259,12 @@ public class TCPServer implements ServerSender {
                     e2.printStackTrace();
                 }
             }
+        }
+
+        @Override
+        public void onStopped(Thread thread) {
+            ThreadPoolExecutor executor = (ThreadPoolExecutor) mExecutorService;
+            executor.remove(thread);
         }
 
     }

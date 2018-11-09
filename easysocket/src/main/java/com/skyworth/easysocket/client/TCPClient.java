@@ -52,6 +52,18 @@ public class TCPClient implements ClientSender,ClientSendThread.OnErrorListener 
         return isConnected;
     }
 
+    public String getServerIp() {
+        return serverIp;
+    }
+
+    public int getServerPort() {
+        return serverPort;
+    }
+
+    public int getLocalPort() {
+        return socket != null && socket.isConnected() ? socket.getLocalPort():0;
+    }
+
     public interface OnConnectedListener{
         void onConnected(int port, String ip);
 
@@ -76,6 +88,11 @@ public class TCPClient implements ClientSender,ClientSendThread.OnErrorListener 
     public void setServerInfo(SocketInfo info){
         serverIp = info.getIp();
         serverPort = info.getPort();
+    }
+
+    public void setServerInfo(String ip,int port){
+        serverIp = ip;
+        serverPort = port;
     }
 
     public void setOnReceiveListener(ReceiveThread.OnReceiveListener receiverListener) {

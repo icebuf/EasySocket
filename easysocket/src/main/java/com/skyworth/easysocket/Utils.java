@@ -265,4 +265,8 @@ public class Utils {
         }
         return bytes;
     }
+
+    public static boolean isPort(int port) {
+        return port > 0 && port <= 65535;
+    }
 }

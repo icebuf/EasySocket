@@ -197,7 +197,9 @@ public class ReceiveThread extends Thread {
                 }
             }
         }
-        Log.i(TAG,"receive thread finished!");
+        if(mReceiveListener != null)
+            mReceiveListener.onStopped(this);
+        Log.i(TAG,"receive thread stopped!");
     }
 
     private boolean isTrue(int head, int packLen) {
@@ -242,6 +244,8 @@ public class ReceiveThread extends Thread {
         void onReceive(Thread thread,EasyMessage message);
 
         void onError(Thread thread,Exception e);
+
+        void onStopped(Thread thread);
     }
 
     public void setOnReceiveListener(OnReceiveListener listener) {

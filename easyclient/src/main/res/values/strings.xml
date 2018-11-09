@@ -25,4 +25,11 @@
     <string name="tcp_comm_by_screen_share_detail">客户端录屏编码并发送给服务端解码显示</string>
     <string name="btn_text_disconnect">断开连接</string>
     <string name="btn_text_connected">连接</string>
+    <string name="server_info_setting">Setting</string>
+    <string name="btn_text_ok">OK</string>
+    <string name="btn_text_cancel">Cancel</string>
+    <string name="server_ip">Server IP:</string>
+    <string name="server_port">Server Port:</string>
+    <string name="tcp_connect_fail">Connect fail!</string>
+    <string name="clear_log">清除日志</string>
 </resources>
